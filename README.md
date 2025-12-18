@@ -232,7 +232,7 @@ Warm-start results produced **no significant improvement**, suggesting the solut
 would be needed to escape toward a better global region.
 
 
-## 4.2.5 Stress / Sensitivity Test (Scalability on Synthetic Istanbul Instances)
+### 4.2.5 Stress / Sensitivity Test (Scalability on Synthetic Istanbul Instances)
 
 This section documents the **stress-testing phase** of the project, where the ALNS solver is evaluated on **synthetic routing instances** instead of the original university dataset. The goal is to measure the algorithm’s **scalability**, **robustness**, and **constraint-handling behavior** as the problem size increases.
 
