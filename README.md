@@ -98,8 +98,6 @@ A sample mapping is shown below (excerpt):
 - 58: Yıldız Teknik Üniversitesi  
 - 59: Taksim Meydan (Depot)
 
-(Full mapping can be included in `data/universities_meta.csv` or in a separate markdown file.)
-
 ---
 
 ## Experimental Results and Evaluation
