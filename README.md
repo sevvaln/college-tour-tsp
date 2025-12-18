@@ -1,4 +1,4 @@
-# College Tour TSP in Istanbul — Multi-Day ALNS (with SA) + Performance Analysis
+# College Tour TSP 
 
 This repository contains a constrained, real-world **College Tour Traveling Salesperson Problem (TSP)** solver for Istanbul. The problem involves visiting a set of universities **exactly once**, while organizing visits into **multi-day routes** that start and end at a fixed depot (e.g., **Taksim Meydan**). The solution approach is based on **Adaptive Large Neighborhood Search (ALNS)** enhanced with **Simulated Annealing (SA)** acceptance, and strengthened with **2-opt local search** applied per day.
 
@@ -238,28 +238,93 @@ The best solution provides a complete 20-day schedule visiting all 58 universiti
 
 **Table 5. Best Solution Route Schedule (Summary)**
 
-Day	Başlangıç/Bitiş	Ziyaret Edilen Üniversite Sayısı	Toplam Rota Mesafesi (km)	Toplam Seyahat Süresi (saat)	Öncelikli Üniversite Sayısı
-1	59-41-58-13-59	3	18.97	6.63	3
-2	59-26-23-42-59	3	73.47	8.45	1
-3	59-55-30-59	3	54.98	7.83	3
-4	59-56-54-48-59	3	35.49	7.18	1
-5	59-2-16-59	2	59.00	5.97	0
-6	59-50-38-46-59	3	54.99	7.83	3
-7	59-51-10-3-59	3	73.66	8.46	1
-8	59-6-43-44-59	3	21.88	6.73	0
-9	59-32-53-22-59	3	118.16	9.94	1
-10	59-35-45-24-59	3	16.53	6.55	0
-11	59-18-33-59	2	190.58	10.35	0
-12	59-57-47-25-59	3	78.17	8.61	0
-13	59-9-49-37-59	3	26.93	6.90	0
-14	59-11-7-40-59	3	21.95	6.73	0
-15	59-27-19-39-59	3	21.40	6.71	0
-16	59-34-20-28-59	3	53.93	7.80	0
-17	59-21-31-15-59	3	37.94	7.26	0
-18	59-14-22-36-59	3	23.71	6.79	0
-19	59-4-17-5-59	3	44.09	7.47	0
-20	59-29-1-12-59	3	43.79	7.47	0
-Total	-	58	1069.61	151.65	13
+| node_id | University |
+|---:|---|
+| 1 | Acıbadem Mehmet Ali Aydınlar Üniversitesi |
+| 2 | Altınbaş Üniversitesi |
+| 3 | ATAŞEHİR ADIGÜZEL MESLEK YÜKSEKOKULU |
+| 4 | BAHÇEŞEHİR ÜNİVERSİTESİ |
+| 5 | BEYKOZ ÜNİVERSİTESİ |
+| 6 | BEZM-İ ÂLEM VAKIF ÜNİVERSİTESİ |
+| 7 | BİRUNİ ÜNİVERSİTESİ |
+| 8 | BOĞAZİÇİ ÜNİVERSİTESİ |
+| 9 | DEMİROĞLU BİLİM ÜNİVERSİTESİ |
+| 10 | DOĞUŞ ÜNİVERSİTESİ |
+| 11 | FATİH SULTAN MEHMET VAKIF ÜNİVERSİTESİ |
+| 12 | FENERBAHÇE ÜNİVERSİTESİ |
+| 13 | GALATASARAY ÜNİVERSİTESİ |
+| 14 | HALİÇ ÜNİVERSİTESİ |
+| 15 | IŞIK ÜNİVERSİTESİ |
+| 16 | İBN HALDUN ÜNİVERSİTESİ |
+| 17 | İSTANBUL 29 MAYIS ÜNİVERSİTESİ |
+| 18 | İSTANBUL AREL ÜNİVERSİTESİ |
+| 19 | İSTANBUL ATLAS ÜNİVERSİTESİ |
+| 20 | İSTANBUL AYDIN ÜNİVERSİTESİ |
+| 21 | İSTANBUL BEYKENT ÜNİVERSİTESİ |
+| 22 | İSTANBUL BİLGİ ÜNİVERSİTESİ |
+| 23 | İSTANBUL ESENYURT ÜNİVERSİTESİ |
+| 24 | İSTANBUL GALATA ÜNİVERSİTESİ |
+| 25 | İSTANBUL GEDİK ÜNİVERSİTESİ |
+| 26 | İSTANBUL GELİŞİM ÜNİVERSİTESİ |
+| 27 | İSTANBUL KENT ÜNİVERSİTESİ |
+| 28 | İSTANBUL KÜLTÜR ÜNİVERSİTESİ |
+| 29 | İSTANBUL MEDENİYET ÜNİVERSİTESİ |
+| 30 | İSTANBUL MEDİPOL ÜNİVERSİTESİ |
+| 31 | İSTANBUL NİŞANTAŞI ÜNİVERSİTESİ |
+| 32 | İSTANBUL OKAN ÜNİVERSİTESİ |
+| 33 | İSTANBUL RUMELİ ÜNİVERSİTESİ |
+| 34 | İSTANBUL SABAHATTİN ZAİM ÜNİVERSİTESİ |
+| 35 | İSTANBUL SAĞLIK VE SOSYAL BİLİMLER MESLEK YÜKSEKOKULU |
+| 36 | İSTANBUL SAĞLIK VE TEKNOLOJİ ÜNİVERSİTESİ |
+| 37 | İSTANBUL ŞİŞLİ MESLEK YÜKSEKOKULU |
+| 38 | İSTANBUL TEKNİK ÜNİVERSİTESİ |
+| 39 | İSTANBUL TİCARET ÜNİVERSİTESİ |
+| 40 | İSTANBUL TOPKAPI ÜNİVERSİTESİ |
+| 41 | İSTANBUL ÜNİVERSİTESİ |
+| 42 | İSTANBUL ÜNİVERSİTESİ-CERRAHPAŞA |
+| 43 | İSTANBUL YENİ YÜZYIL ÜNİVERSİTESİ |
+| 44 | İSTİNYE ÜNİVERSİTESİ |
+| 45 | KADİR HAS ÜNİVERSİTESİ |
+| 46 | KOÇ ÜNİVERSİTESİ |
+| 47 | MALTEPE ÜNİVERSİTESİ |
+| 48 | MARMARA ÜNİVERSİTESİ |
+| 49 | MEF ÜNİVERSİTESİ |
+| 50 | MİMAR SİNAN GÜZEL SANATLAR ÜNİVERSİTESİ |
+| 51 | ÖZYEĞİN ÜNİVERSİTESİ |
+| 52 | PİRİ REİS ÜNİVERSİTESİ |
+| 53 | SABANCI ÜNİVERSİTESİ |
+| 54 | SAĞLIK BİLİMLERİ ÜNİVERSİTESİ |
+| 55 | TÜRK-ALMAN ÜNİVERSİTESİ |
+| 56 | ÜSKÜDAR ÜNİVERSİTESİ |
+| 57 | YEDİTEPE ÜNİVERSİTESİ |
+| 58 | YILDIZ TEKNİK ÜNİVERSİTESİ |
+| 59 | Taksim Meydan (Depot) |
+
+
+| Day | Start/End (Node Route) | #Visited Universities | Total Route Distance (km) | Total Travel Time (hours) | #Priority Universities |
+|---:|---|---:|---:|---:|---:|
+| 1  | 59-41-58-13-59 | 3 | 18.97  | 6.63 | 3 |
+| 2  | 59-26-23-42-59 | 3 | 73.47  | 8.45 | 1 |
+| 3  | 59-55-30-59    | 3 | 54.98  | 7.83 | 3 |
+| 4  | 59-56-54-48-59 | 3 | 35.49  | 7.18 | 1 |
+| 5  | 59-2-16-59     | 2 | 59.00  | 5.97 | 0 |
+| 6  | 59-50-38-46-59 | 3 | 54.99  | 7.83 | 3 |
+| 7  | 59-51-10-3-59  | 3 | 73.66  | 8.46 | 1 |
+| 8  | 59-6-43-44-59  | 3 | 21.88  | 6.73 | 0 |
+| 9  | 59-32-53-22-59 | 3 | 118.16 | 9.94 | 1 |
+| 10 | 59-35-45-24-59 | 3 | 16.53  | 6.55 | 0 |
+| 11 | 59-18-33-59    | 2 | 190.58 | 10.35 | 0 |
+| 12 | 59-57-47-25-59 | 3 | 78.17  | 8.61 | 0 |
+| 13 | 59-9-49-37-59  | 3 | 26.93  | 6.90 | 0 |
+| 14 | 59-11-7-40-59  | 3 | 21.95  | 6.73 | 0 |
+| 15 | 59-27-19-39-59 | 3 | 21.40  | 6.71 | 0 |
+| 16 | 59-34-20-28-59 | 3 | 53.93  | 7.80 | 0 |
+| 17 | 59-21-31-15-59 | 3 | 37.94  | 7.26 | 0 |
+| 18 | 59-14-22-36-59 | 3 | 23.71  | 6.79 | 0 |
+| 19 | 59-4-17-5-59   | 3 | 44.09  | 7.47 | 0 |
+| 20 | 59-29-1-12-59  | 3 | 43.79  | 7.47 | 0 |
+| **Total** | - | **58** | **1069.61** | **151.65** | **13** |
+
 
 
 
