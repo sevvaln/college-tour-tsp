@@ -57,8 +57,6 @@ This design ensures:
 
 ---
 
-## Algorithm Summary
-
 ## Algorithm Design and Rationale  
 ### Why ALNS with Simulated Annealing and 2-opt?
 
