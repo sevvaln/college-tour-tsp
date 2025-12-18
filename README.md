@@ -59,28 +59,118 @@ This design ensures:
 
 ## Algorithm Summary
 
-### 1) Initialization (Cold Start)
-A **Cold-Start** strategy is used for unbiased evaluation:
-- Non-depot nodes are randomly shuffled,
-- distributed across daily routes,
-- producing a feasible but high-cost initial solution.
+## Algorithm Design and Rationale  
+### Why ALNS with Simulated Annealing and 2-opt?
 
-### 2) ALNS Main Loop
-Each iteration applies:
-- **Destroy operator**: removes a subset of nodes (random removal in the baseline version)
-- **Repair operator**: reinserts removed nodes via greedy insertion minimizing incremental cost + penalties
-- **Local search**: day-wise **2-opt** optimization
+The College Tour Traveling Salesperson Problem addressed in this project is **not a classical TSP**.  
+It involves **multi-day routing**, **hard and soft constraints**, and **global assignment decisions**, which significantly increase the complexity of the solution space.
 
-### 3) Acceptance Criterion (Simulated Annealing)
-Even worse solutions may be accepted with a probability controlled by:
-- Initial Temperature (**Tinitial**)
-- Cooling Rate (**α**)
-- Temperature update: **T = Tinitial · α^k**
+Key characteristics of the problem include:
+- Multi-day planning (20-day schedule)
+- Daily travel time and distance limits
+- Each university must be visited exactly once
+- Priority-based soft constraints
+- Asymmetric distance matrix
+- Day-level and global-level feasibility requirements
 
-This prevents premature convergence and supports exploration early in the search.
+Due to this complexity, a single local search heuristic is insufficient.  
+Instead, a **hybrid metaheuristic architecture** was designed using **ALNS**, **Simulated Annealing**, and **2-opt**, each serving a distinct role.
 
-### 4) Logging
-Per-iteration logs are stored (e.g., best cost, current cost, feasibility), enabling deep analysis and visualization.
+---
+
+### 1. Role of 2-opt (Local Improvement)
+
+**2-opt** is a classical **local search** heuristic that improves a route by reversing segments to reduce total distance.
+
+In this project:
+- 2-opt is applied **only within individual daily routes**.
+- It improves the **ordering of visits inside a single day**.
+
+However, 2-opt has important limitations:
+- It explores only a **very small neighborhood**.
+- It cannot move a university from one day to another.
+- It cannot resolve global infeasibility.
+- It quickly gets trapped in local minima.
+
+Therefore, 2-opt alone cannot solve the College Tour TSP.
+
+> 2-opt answers the question:  
+> *“How can I slightly improve the order of visits in this day?”*
+
+---
+
+### 2. Role of ALNS (Global Structure Search)
+
+**Adaptive Large Neighborhood Search (ALNS)** is used as the **main optimization framework**.
+
+ALNS:
+- deliberately **destroys** parts of the current solution,
+- **reconstructs** them using heuristic repair strategies,
+- enables **large structural changes** across days.
+
+In this project, ALNS enables:
+- redistribution of universities across different days,
+- correction of infeasible schedules,
+- exploration of fundamentally different solution structures.
+
+> ALNS answers the question:  
+> *“Should this entire schedule be broken and rebuilt differently?”*
+
+---
+
+### 3. Role of Simulated Annealing (Acceptance Mechanism)
+
+ALNS itself **does not define an acceptance rule**.  
+It specifies *how* new solutions are generated, but not *whether* worse solutions should be accepted.
+
+In this project, **Simulated Annealing (SA)** is used as the **acceptance criterion**.
+
+Acceptance logic:
+- If the new solution is better → always accepted.
+- If worse → accepted with probability  
+  \[
+  P = \exp\left(-\frac{\Delta}{T}\right)
+  \]
+  where \( \Delta \) is the cost difference and \( T \) is the temperature.
+
+The temperature decreases over iterations, allowing:
+- early-stage exploration,
+- late-stage convergence and refinement.
+
+SA is critical because:
+- promising structural changes may temporarily increase cost,
+- early rejection would trap the algorithm in local minima,
+- the problem has a highly constrained and rugged solution space.
+
+> Simulated Annealing acts as a *gatekeeper*, preventing ALNS from prematurely rejecting structurally promising solutions.
+
+---
+
+### 4. Why This Hybrid Approach Works
+
+The final architecture is intentionally hybrid:
+
+| Component | Purpose |
+|---------|--------|
+| ALNS | Global restructuring across days |
+| Simulated Annealing | Controlled acceptance and escape from local minima |
+| 2-opt | Fine-grained route refinement within days |
+
+Workflow summary:
+1. ALNS generates structurally different candidate solutions.
+2. Simulated Annealing decides whether to accept them.
+3. 2-opt locally refines daily routes.
+
+This combination enables:
+- large-scale exploration,
+- stable convergence,
+- feasible and high-quality multi-day schedules.
+
+---
+
+### 5. One-Sentence Summary
+
+> *2-opt improves routes locally, ALNS rebuilds the schedule globally, and Simulated Annealing prevents premature convergence — together forming a robust hybrid metaheuristic for the constrained, multi-day College Tour TSP.*
 
 ---
 
