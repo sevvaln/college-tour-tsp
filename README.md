@@ -231,6 +231,79 @@ Warm-start results produced **no significant improvement**, suggesting the solut
 - alternative cooling schedules / neighborhood moves  
 would be needed to escape toward a better global region.
 
+
+## 4.2.5 Stress / Sensitivity Test (Scalability on Synthetic Istanbul Instances)
+
+This section documents the **stress-testing phase** of the project, where the ALNS solver is evaluated on **synthetic routing instances** instead of the original university dataset. The goal is to measure the algorithm’s **scalability**, **robustness**, and **constraint-handling behavior** as the problem size increases.
+
+### Why Synthetic Data?
+The original dataset contains real university locations that may introduce spatial bias (clusters, density patterns, etc.).  
+To decouple the solver from a specific application and test it as a **general routing optimizer**, synthetic nodes are uniformly generated inside an “Istanbul-like” rectangle.
+
+### Synthetic Instance Generation (“Istanbul Box”)
+Each instance is generated dynamically via `generate_random_instance(n_nodes)`:
+
+- **Bounding box size:** 50 km × 30 km (50,000 m × 30,000 m)
+- **Node distribution:** Uniform random scatter inside the box
+- **Depot:** Node `0` is fixed as **DEPOT** (central hub analog)
+- **Other nodes:** Labeled generically as `Loc_1, Loc_2, ...`
+- **Distance metric:** Euclidean distance for all node pairs (using `scipy.spatial.distance.cdist`)
+
+This produces a fully synthetic distance matrix and removes dependency on any external CSV.
+
+---
+
+## Experiment Setup
+
+### Independent Variable
+Only the **number of nodes (N)** is varied to observe scaling behavior.
+
+Tested sizes:
+- `N = {50, 60, 70, 80, 90, 100}`
+
+### Constraints (Kept Intentionally Strict)
+To keep the optimization problem challenging at every scale:
+
+- **Time windows:** 9-hour operational windows (0 to 540 minutes)
+- **Priority nodes:** 20% of nodes are randomly marked as “High Priority”
+- **Daily limits:**
+  - Max daily time: **9 hours**
+  - Max daily distance: **300 km**
+- **Service time:** 120 minutes per visit
+- **Speed assumption:** 30 km/h
+
+Constraints are incorporated via penalties in the objective function, while “visit exactly once” and “no repeated nodes in a day” are treated as hard feasibility conditions.
+
+---
+
+## ALNS Configuration for the Stress Test
+
+The solver is configured for batch testing and fast convergence:
+
+- **Iterations:** `2000` per instance
+- **Simulated Annealing:**  
+  - Initial Temperature: `T = 1000`  
+  - Cooling Rate: `α = 0.95` (relatively fast cooling)
+- **Destroy operator:** Random Removal (removing ~20%–40% of nodes)
+- **Repair operator:** Greedy insertion (lowest incremental cost insertion)
+- **Progress reporting:** Prints status every `100` iterations
+
+---
+
+## Metrics Recorded
+For each tested N, the script reports:
+
+1. **Best Cost:** Best objective value found (distance + penalties)
+2. **Runtime:** Total elapsed time in seconds
+3. **Feasibility:** Whether hard constraints were satisfied (`True/False`)
+
+---
+
+## How to Run
+```bash
+python stress_test.py
+
+
 ---
 
 ### 4.3 Detailed Analysis of the Best Solution
