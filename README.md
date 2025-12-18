@@ -299,10 +299,6 @@ For each tested N, the script reports:
 
 ---
 
-## How to Run
-
-python stress_test.py
-
 ### 4.3 Detailed Analysis of the Best Solution
 
 The best solution provides a complete 20-day schedule visiting all 58 universities.
