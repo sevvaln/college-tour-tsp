@@ -1,3 +1,4 @@
+<img width="1592" height="731" alt="image" src="https://github.com/user-attachments/assets/b8cef8a5-64a2-499c-b0ca-53b291eb5628" />
 # College Tour TSP 
 
 This repository contains a constrained, real-world **College Tour Traveling Salesperson Problem (TSP)** solver for Istanbul. The problem involves visiting a set of universities **exactly once**, while organizing visits into **multi-day routes** that start and end at a fixed depot (e.g., **Taksim Meydan**). The solution approach is based on **Adaptive Large Neighborhood Search (ALNS)** enhanced with **Simulated Annealing (SA)** acceptance, and strengthened with **2-opt local search** applied per day.
