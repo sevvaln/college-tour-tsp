@@ -300,11 +300,8 @@ For each tested N, the script reports:
 ---
 
 ## How to Run
-```bash
+
 python stress_test.py
-
-
----
 
 ### 4.3 Detailed Analysis of the Best Solution
 
